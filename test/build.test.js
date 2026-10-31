@@ -25,3 +25,6 @@ test('every generated HTML page is non-empty', () => {
   }
 });
 
+test('required status check failure demonstration', () => {
+  assert.fail('Intentional failure to verify branch protection');
+});
