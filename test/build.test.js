@@ -25,3 +25,5 @@ test('every generated HTML page is non-empty', () => {
   }
 });
 
+
+test('this always fails', () => assert.ok(false));
