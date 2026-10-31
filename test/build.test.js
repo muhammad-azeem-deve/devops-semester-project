@@ -25,3 +25,8 @@ test('every generated HTML page is non-empty', () => {
   }
 });
 
+test('every page names the course', () => {
+  for (const p of pages) {
+    assert.match(fs.readFileSync('out/' + p, 'utf8'), /DevOps/);
+  }
+});
