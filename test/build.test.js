@@ -25,6 +25,3 @@ test('every generated HTML page is non-empty', () => {
   }
 });
 
-test('intentional failure demonstration', () => {
-  assert.fail('This test is intentionally failing for Lab 06');
-});
