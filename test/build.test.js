@@ -5,8 +5,9 @@ const fs = require('fs');
 
 const pages = fs.readdirSync('out').filter((f) => f.endsWith('.html'));
 
-test('every source produced a page', () => {
+test('exactly three source pages are generated', () => {
   const sources = fs.readdirSync('src').filter((f) => f.endsWith('.md'));
+  assert.strictEqual(sources.length, 3);
   assert.strictEqual(pages.length, sources.length);
 });
 
