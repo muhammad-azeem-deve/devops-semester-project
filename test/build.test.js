@@ -24,3 +24,7 @@ test('every generated HTML page is non-empty', () => {
     assert.ok(html.trim().length > 0, `${p} should not be empty`);
   }
 });
+
+test('intentional failure demonstration', () => {
+  assert.fail('This test is intentionally failing for Lab 06');
+});
