@@ -25,3 +25,6 @@ test('every generated HTML page is non-empty', () => {
   }
 });
 
+test('the notes page exists', () => {
+  assert.ok(fs.existsSync('out/notes.html'));
+});
