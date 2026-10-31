@@ -21,3 +21,6 @@ Install locked dependencies and run the build and tests:
 
     npm ci
     make ci
+
+
+CI verification for Lab 06.
