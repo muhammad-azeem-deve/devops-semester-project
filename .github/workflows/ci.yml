@@ -9,8 +9,8 @@ on:
     - cron: '0 8 * * 1'
 
 jobs:
-  build-and-test:
-    name: build-and-test
+  lint:
+    name: lint
     runs-on: ubuntu-24.04
 
     steps:
@@ -26,13 +26,63 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build and test
-        run: make ci
+      - name: Run ESLint
+        run: make lint
+
+  test:
+    name: test
+    needs: lint
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests and generate coverage
+        run: make coverage
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/lcov.info
+          if-no-files-found: error
+          retention-days: 7
+
+  package:
+    name: package
+    needs: test
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create npm package
+        run: make package
 
       - name: Upload package artifact
         uses: actions/upload-artifact@v4
         with:
-          name: devops-package
+          name: devops-pipeline
           path: '*.tgz'
           if-no-files-found: error
           retention-days: 7
