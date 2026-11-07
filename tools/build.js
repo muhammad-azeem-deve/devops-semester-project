@@ -1,4 +1,3 @@
-const unusedLimit = 100;
 #!/usr/bin/env node
 
 const fs = require('fs');
