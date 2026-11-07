@@ -3,7 +3,7 @@ OUT_DIR := out
 SOURCES := $(wildcard $(SRC_DIR)/*.md)
 OUTPUTS := $(patsubst $(SRC_DIR)/%.md,$(OUT_DIR)/%.html,$(SOURCES))
 
-.PHONY: all deps check build lint test package clean ci
+.PHONY: all deps check build lint test coverage package clean ci
 
 all: ci
 
@@ -29,6 +29,12 @@ build: $(OUTPUTS)
 lint: node_modules
 	npm run --silent lint
 
+coverage: build
+	@mkdir -p coverage
+	node --test --experimental-test-coverage \
+	  --test-reporter=spec --test-reporter-destination=stdout \
+	  --test-reporter=lcov --test-reporter-destination=coverage/lcov.info
+
 test: build
 	npm test
 
@@ -37,6 +43,6 @@ package: test
 	@echo "PACKAGE CREATED"
 
 clean:
-	rm -rf $(OUT_DIR) *.tgz
+	rm -rf $(OUT_DIR) coverage *.tgz
 
 ci: clean deps check lint test package
